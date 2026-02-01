@@ -1,4 +1,5 @@
-﻿using DapperAndRedisCache.Repository;
+﻿using DapperAndRedisCache.Dto;
+using DapperAndRedisCache.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,5 +29,27 @@ namespace DapperAndRedisCache.Controllers
             var departments = await _employeeRepository.GetAllDepartment();
             return Ok(departments);
         }
+       
+        [HttpPost]
+        public async Task<IActionResult> CreateEmployee(Employee employee) 
+        {
+            var action = await _employeeRepository.AddEmployee(employee);
+            return Created();
+        }
+       
+        [HttpPost("CreateEmployees")]
+        public async Task<IActionResult> CreateEmployees(List<Employee> employees) 
+        {
+            await _employeeRepository.BulkInsertEmployees(employees);
+            return Created();
+        }
+
+        [HttpGet("ranking/{mode}")]
+        public async Task<IActionResult> GetEmployeesWithRanking(int mode)
+        {
+            var data = await _employeeRepository.GetEmployeesWithRanking(mode);
+            return Ok(data);
+        }
+
     }
 }
