@@ -1,7 +1,6 @@
 ﻿using DapperAndRedisCache.Dto;
 using DapperAndRedisCache.Repository;
 using DapperAndRedisCache.Service;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DapperAndRedisCache.Controllers
@@ -58,7 +57,7 @@ namespace DapperAndRedisCache.Controllers
         {
             await _employeeRepository.AddEmployee(employee);
 
-            await _cacheService.RemoveAsync("employee_all");
+            await _cacheService.RemoveAsync("employees_All");
             return Ok("Employee Created");
         }
        
@@ -67,7 +66,7 @@ namespace DapperAndRedisCache.Controllers
         {
             await _employeeRepository.BulkInsertEmployees(employees);
 
-            await _cacheService.RemoveAsync("employee_all");
+            await _cacheService.RemoveAsync("employees_All");
             return Created();
         }
 
